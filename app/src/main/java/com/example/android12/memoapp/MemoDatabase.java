@@ -156,7 +156,7 @@ public class MemoDatabase {
             m2 = p2.matcher(this.texts.get(idx));
             if(m1.matches() && m2.matches()){
                 dates.add(this.dates.get(idx));
-                texts.add(this.dates.get(idx));
+                texts.add(this.texts.get(idx));
             }
         }
     }
