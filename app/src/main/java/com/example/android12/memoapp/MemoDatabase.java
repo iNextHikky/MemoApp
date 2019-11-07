@@ -46,6 +46,7 @@ public class MemoDatabase {
         texts.add(text);
         formatter.setTimeZone(TimeZone.getDefault());
         appendDateTexts(date, text);
+        Log.d("Success", "submit Ok");
     }
 
     public void appendDateTexts(String date, String text) {
@@ -79,10 +80,10 @@ public class MemoDatabase {
             BufferedReader br = new BufferedReader(isr);
             while ((line = br.readLine()) != null){
                 if(line.equals("<EOT>")){
-                    texts.add(parseDateForLoad(msg));
+                    texts.add(msg);
                     state = 0;
                 }else if(state == 0){
-                    dates.add(parseDateForLoad(line));
+                    dates.add(line);
                     state = 1;
                     msg = "";
                 }else if(state == 1){
@@ -99,10 +100,6 @@ public class MemoDatabase {
             Log.d("ERROR", "loadDateTexts FAILED");
         }
         Log.d("SUCCESS", "loadDateTexts SUCCESS");
-    }
-
-    public String parseDateForLoad(String line){
-        return line;
     }
 
     public void search(String date, String text, List<String> dates, List<String> texts) {
@@ -122,7 +119,7 @@ public class MemoDatabase {
     public void searchByText(String text, List<String> dates, List<String> texts){
         dates.clear();
         texts.clear();
-        Pattern p = Pattern.compile(".*" + text.trim() + ".*");
+        Pattern p = Pattern.compile(".*" + text + ".*");
         int sz = this.texts.size();
         for(int idx = 0; idx < sz; idx++){
             Matcher m = p.matcher(this.texts.get(idx));
@@ -136,8 +133,8 @@ public class MemoDatabase {
     public void searchByDate(String date, List<String> dates, List<String> texts){
         dates.clear();
         texts.clear();
-        Pattern p = Pattern.compile(".*" + date.trim() + ".*");
-        int sz = dates.size();
+        Pattern p = Pattern.compile(date);
+        int sz = this.dates.size();
         for(int idx = 0; idx < sz; idx++){
             Matcher m = p.matcher(this.dates.get(idx));
             if(m.matches()){
@@ -151,8 +148,8 @@ public class MemoDatabase {
         texts.clear();
         Pattern p1, p2;
         Matcher m1, m2;
-        p1 = Pattern.compile(".*" + date.trim() + ".*");
-        p2 = Pattern.compile(".*" + text.trim() + ".*");
+        p1 = Pattern.compile(date);
+        p2 = Pattern.compile(".*" + text + ".*");
         int sz = this.texts.size();
         for (int idx = 0; idx < sz; idx++) {
             m1 = p1.matcher(this.dates.get(idx));
@@ -167,7 +164,7 @@ public class MemoDatabase {
     public void copyAllEntries(List<String> dates, List<String> texts){
         dates.clear();
         texts.clear();
-        int sz = this.texts.size();
+        int sz = this.dates.size();
         for(int idx = 0; idx < sz; idx++){
             dates.add(this.dates.get(idx));
             texts.add(this.texts.get(idx));

@@ -17,6 +17,10 @@ public class ComShowCurrent extends MemoCommand{
         mView.setDate(mModel.getCurrentDate());
         mView.setText("");
         */
-        mModel.moveCurrent();
+        if(mModel.moveCurrent()){
+            mView.setText(mModel.getFocusedText());
+            mView.setDate(mModel.getFocusedDate());
+        }else
+            return;
     }
 }

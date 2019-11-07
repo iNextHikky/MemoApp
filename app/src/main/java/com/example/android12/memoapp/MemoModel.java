@@ -1,6 +1,7 @@
 package com.example.android12.memoapp;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class MemoModel {
     private MemoDatabase database;
     private List<String> mDateResults = new ArrayList<>();
     private List<String> mTextResults = new ArrayList<>();
-    private int mIndex;
+    private int mIndex = 0;
 
     public MemoModel(Context context){
         mContext = context;
@@ -20,25 +21,33 @@ public class MemoModel {
     }
 
     public void start(){
+        database.start();
         database.copyAllEntries(mDateResults, mTextResults);
+        //Log.d("copySuccess", mDateResults.get(0));
     }
 
     public void submit(String date, String text){
         database.submit(date, text);
     }
 
-    public void search(String date, String text){
+    public void search(String date, String text) {
         database.search(date, text, mDateResults, mTextResults);
+        if(mDateResults != null&& mTextResults != null){
+            mIndex = 0;
+        }else
+            return;
+        //Log.d("search", "mIdx"+ mDateResults.get(0));
     }
 
+    /*
     public void clearResults(){
         mDateResults.clear();
         mTextResults.clear();
     }
-
+*/
     public String getCurrentDate(){
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         return sdf.format(date);
     }
 
@@ -63,22 +72,21 @@ public class MemoModel {
         }else
             return false;
     }
-
+/*
     public int substractDate(String t1, String t2){
-        /*
-        Date d1, d2;
-        try{
-            d1 = DateFormat.parse(t1);
-            d2 = DateFormat.parse(t2);
-        }catch (ParseException e){
-            d1 = null;
-            d2 = null;
-        }if (d1 == null|| d2 == null)
-        */
-        return 0;
-    }
-
+     d1, d2;
+    try{
+        d1 = DateFormat.parse(t1);
+        d2 = DateFormat.parse(t2);
+    }catch (ParseException e){
+        d1 = null;
+        d2 = null;
+    }if (d1 == null|| d2 == null)
+    return 0;
+}
+*/
     public boolean moveCurrent() {
+        /*
         int sz = mTextResults.size();
         if (sz <= 0) {
             mIndex = -1;
@@ -96,6 +104,15 @@ public class MemoModel {
                 }
             }
             mIndex = jdx;
+            return true;
+        }
+        */
+        int sz = mTextResults.size();
+        if(sz < 0){
+            mIndex = -1;
+            return false;
+        }else {
+            mIndex = sz - 1;
             return true;
         }
     }

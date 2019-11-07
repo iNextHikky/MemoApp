@@ -1,5 +1,7 @@
 package com.example.android12.memoapp.Commands;
 
+import android.util.Log;
+
 import com.example.android12.memoapp.MemoModel;
 import com.example.android12.memoapp.MemoView;
 
@@ -19,5 +21,7 @@ public class ComSearch extends MemoCommand{
         String date = mView.getDate();
         String text = mView.getText();
         mModel.search(date, text);
+        mView.setDate(mModel.getFocusedDate());
+        mView.setText(mModel.getFocusedText());
     }
 }
