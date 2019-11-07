@@ -124,4 +124,8 @@ public class MemoModel {
         }else
             return false;
     }
+
+    public void resetClear(){
+        database.copyAllEntries(mDateResults, mTextResults);
+    }
 }

@@ -15,5 +15,6 @@ public class ComClear extends MemoCommand{
     public void execute(){
         mView.setText("");
         mView.setDate(mModel.getCurrentDate());
+        mModel.resetClear();
     }
 }
