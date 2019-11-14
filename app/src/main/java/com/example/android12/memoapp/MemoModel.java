@@ -117,6 +117,16 @@ public class MemoModel {
         }
     }
 
+    public boolean deleteCurrent(){
+        if(mDateResults.get(mIndex) != null){
+            mDateResults.set(mIndex, null);
+            mTextResults.set(mIndex, null);
+            database.deleteDateTexts(mIndex);
+            return true;
+        }
+        return false;
+    }
+
     public boolean moveNext(){
         if (mIndex >= 0 && mIndex < mTextResults.size() - 1) {
             mIndex += 1;

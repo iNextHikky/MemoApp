@@ -24,6 +24,7 @@ public class MemoDatabase {
     private List<String> dates = new ArrayList<>();
     private List<String> texts = new ArrayList<>();
     private String fileName;
+    private String fileNametmp;
     private DateFormat formatter = DateFormat.getDateTimeInstance();
 
 //  final private Pattern ptnDateForSave = Pattern.compile(".*(\\d{4})(\\d{2})(\\d{2}) (\\d{2}):(\\d{2}).*");
@@ -33,6 +34,7 @@ public class MemoDatabase {
         mContext = context;
         fileName = context.getFilesDir().getPath() + "/myMemo.txt";
         Log.d("TEST", "filename:"+fileName);
+        fileNametmp = context.getFilesDir().getPath() + "/myMemotmp.txt";
     }
 
     public void start(){
@@ -70,7 +72,46 @@ public class MemoDatabase {
         }
     }
 
+    public void deleteDateTexts(int mIndex){
+        String msg = "";
+        int idxs = 3 * mIndex +1;
+        int idxe = idxs + 3;
+        int count = 0;
+        boolean append = true;
+        try {
+            FileInputStream fis = new FileInputStream(fileName);
+            FileOutputStream fos = new FileOutputStream(new File(fileNametmp), append);
+            OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
+            InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+            BufferedWriter bw = new BufferedWriter(osw);
+            BufferedReader br = new BufferedReader(isr);
+            while((msg = br.readLine()) != null){
+                count++;
+                if(count < idxs || count >= idxe) {
+                    bw.write(msg);
+                    bw.newLine();
+                }
+            }
+            br.close();
+            bw.close();
+            osw.close();
+            fos.close();
+            fis.close();
+            isr.close();
+            File file = new File(fileName);
+            File filetmp = new File(fileNametmp);
+            file.delete();
+            filetmp.renameTo(file);
+
+            loadDateTexts();
+        }catch (Exception e){
+            Log.d("ERROR", "deleteDateTexts");
+        }
+    }
+
     public void loadDateTexts(){
+        dates.clear();
+        texts.clear();
         String line;
         int state = 0;
         String msg = "";

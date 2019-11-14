@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.example.android12.memoapp.Commands.ComBack;
 import com.example.android12.memoapp.Commands.ComClear;
+import com.example.android12.memoapp.Commands.ComDelete;
+import com.example.android12.memoapp.Commands.ComMenu;
 import com.example.android12.memoapp.Commands.ComSearch;
 import com.example.android12.memoapp.Commands.ComShowCurrent;
 import com.example.android12.memoapp.Commands.ComShowNext;
@@ -34,6 +37,9 @@ public class MemoController extends Activity {
         commands.put(R.id.previous_button, new ComShowPrevious(mModel, mView));
         commands.put(R.id.current_button, new ComShowCurrent(mModel, mView));
         commands.put(R.id.next_button, new ComShowNext(mModel, mView));
+        commands.put(R.id.menu_button, new ComMenu(mModel, mView));
+        commands.put(R.id.delete_button, new ComDelete(mModel, mView));
+        commands.put(R.id.back_button, new ComBack(mModel, mView));
     }
 
     @Override

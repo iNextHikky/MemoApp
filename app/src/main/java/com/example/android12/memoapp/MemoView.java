@@ -35,4 +35,12 @@ public class MemoView {
     public void setText(String text){
         wText.setText(text);
     }
+
+    public void subActivity(){
+        mActivity.setContentView(R.layout.subactivity);
+    }
+
+    public void mainActivity(){
+        start();
+    }
 }
