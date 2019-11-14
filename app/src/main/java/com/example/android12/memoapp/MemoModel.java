@@ -1,6 +1,8 @@
 package com.example.android12.memoapp;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -10,22 +12,60 @@ import java.util.List;
 
 public class MemoModel {
     private Context mContext;
+    /*
     private MemoDatabase database;
     private List<String> mDateResults = new ArrayList<>();
     private List<String> mTextResults = new ArrayList<>();
-    private int mIndex = 0;
+    */
+    private SQLiteDatabase mDB;
+    //private int mIndex = 0;
 
     public MemoModel(Context context){
         mContext = context;
-        database = new MemoDatabase(mContext);
+        //database = new MemoDatabase(mContext);
     }
 
     public void start(){
-        database.start();
-        database.copyAllEntries(mDateResults, mTextResults);
+        //database.start();
+        //database.copyAllEntries(mDateResults, mTextResults);
         //Log.d("copySuccess", mDateResults.get(0));
+        if(mDB == null){
+            mDB = mContext.openOrCreateDatabase("my_database_name", SQLiteDatabase.CREATE_IF_NECESSARY, null);
+        }
     }
 
+    public void stop(){
+        if(mDB != null) {
+            mDB.close();
+            mDB = null;
+        }
+    }
+
+    public void tableCreate(){
+        mDB.execSQL("CREATE TABLE IF NOT EXISTS my_table (date DATE, text TEXT);");
+    }
+
+    public void tableDelete(){
+        mDB.execSQL("DROP TABLE IF EXISTS my_table;");
+    }
+
+    public void recordInsert(String date, String text){
+        mDB.execSQL("INSERT INTO my_table VALUES('"+ date +"', '"+ text +"')");
+    }
+
+    public void search(String text){
+        Cursor c = mDB.rawQuery("SELECT * FROM my_table WHERE text == " + text + ";", null);
+        while (c.moveToNext()){
+            show(c.getString(0), c.getString(1));
+        }
+        c.close();
+    }
+
+    public void show(String date, String text){
+
+    }
+
+    /*
     public void submit(String date, String text){
         database.submit(date, text);
     }
@@ -39,7 +79,6 @@ public class MemoModel {
         //Log.d("search", "mIdx"+ mDateResults.get(0));
     }
 
-    /*
     public void clearResults(){
         mDateResults.clear();
         mTextResults.clear();
@@ -50,7 +89,7 @@ public class MemoModel {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         return sdf.format(date);
     }
-
+/*
     public String getFocusedDate(){
         if (mIndex >= 0 && mIndex < mDateResults.size())
             return mDateResults.get(mIndex);
@@ -72,7 +111,7 @@ public class MemoModel {
         }else
             return false;
     }
-/*
+
     public int substractDate(String t1, String t2){
      d1, d2;
     try{
@@ -84,7 +123,7 @@ public class MemoModel {
     }if (d1 == null|| d2 == null)
     return 0;
 }
-*/
+
     public boolean moveCurrent() {
         /*
         int sz = mTextResults.size();
@@ -106,7 +145,7 @@ public class MemoModel {
             mIndex = jdx;
             return true;
         }
-        */
+
         int sz = mTextResults.size();
         if(sz < 0){
             mIndex = -1;
@@ -128,4 +167,5 @@ public class MemoModel {
     public void resetClear(){
         database.copyAllEntries(mDateResults, mTextResults);
     }
+    */
 }
