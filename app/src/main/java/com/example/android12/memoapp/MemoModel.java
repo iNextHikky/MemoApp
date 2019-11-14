@@ -1,6 +1,10 @@
 package com.example.android12.memoapp;
 
 import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -14,16 +18,47 @@ public class MemoModel {
     private List<String> mDateResults = new ArrayList<>();
     private List<String> mTextResults = new ArrayList<>();
     private int mIndex = 0;
+    private int cycle = 1000, delta = 10;
+    private LocationManager manager;
+    private LocationListener listener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
 
     public MemoModel(Context context){
         mContext = context;
         database = new MemoDatabase(mContext);
+        manager = (LocationManager) mContext.getSystemService((Context.LOCATION_SERVICE));
     }
 
     public void start(){
         database.start();
         database.copyAllEntries(mDateResults, mTextResults);
+        manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, cycle, delta, listener);
         //Log.d("copySuccess", mDateResults.get(0));
+    }
+
+    public double getLocation(){
+        Location l = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        double lat = l.getLatitude();
+        double lon = l.getLongitude();
     }
 
     public void submit(String date, String text){

@@ -1,6 +1,8 @@
 package com.example.android12.memoapp;
 
 import android.app.Activity;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +20,7 @@ import com.example.android12.memoapp.Commands.MemoCommand;
 
 import java.util.HashMap;
 
-public class MemoController extends Activity {
+public class MemoController extends Activity{
     private MemoModel mModel;
     private MemoView mView;
     //private MemoDatabase mDatabase;

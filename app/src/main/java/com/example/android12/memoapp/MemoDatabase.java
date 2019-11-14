@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +29,7 @@ public class MemoDatabase {
     private DateFormat formatter = DateFormat.getDateTimeInstance();
 
 //  final private Pattern ptnDateForSave = Pattern.compile(".*(\\d{4})(\\d{2})(\\d{2}) (\\d{2}):(\\d{2}).*");
-    final private Pattern ptnDateForLoad = Pattern.compile(".*(\\d{4})/(\\d{1,2})/(\\d{1,2}) (\\d{2}):(\\d{2}).*");
+//    final private Pattern ptnDateForLoad = Pattern.compile(".*(\\d{4})/(\\d{1,2})/(\\d{1,2}) (\\d{2}):(\\d{2}).*");
 
     public MemoDatabase(Context context){
         mContext = context;
@@ -52,7 +53,7 @@ public class MemoDatabase {
     }
 
     public void appendDateTexts(String date, String text) {
-        String ans = formatter.format(new Date());
+        String ans = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
         Boolean append = true;
         try{
             FileOutputStream fos = new FileOutputStream(new File(fileName), append);
@@ -102,7 +103,6 @@ public class MemoDatabase {
             File filetmp = new File(fileNametmp);
             file.delete();
             filetmp.renameTo(file);
-
             loadDateTexts();
         }catch (Exception e){
             Log.d("ERROR", "deleteDateTexts");
@@ -164,7 +164,7 @@ public class MemoDatabase {
         int sz = this.texts.size();
         for(int idx = 0; idx < sz; idx++){
             Matcher m = p.matcher(this.texts.get(idx));
-            if(m.matches()){
+            if(m.find()){
                 dates.add(this.dates.get(idx));
                 texts.add(this.texts.get(idx));
             }
@@ -178,7 +178,7 @@ public class MemoDatabase {
         int sz = this.dates.size();
         for(int idx = 0; idx < sz; idx++){
             Matcher m = p.matcher(this.dates.get(idx));
-            if(m.matches()){
+            if(m.find()){
                 dates.add(this.dates.get(idx));
                 texts.add(this.texts.get(idx));
             }
@@ -195,7 +195,7 @@ public class MemoDatabase {
         for (int idx = 0; idx < sz; idx++) {
             m1 = p1.matcher(this.dates.get(idx));
             m2 = p2.matcher(this.texts.get(idx));
-            if(m1.matches() && m2.matches()){
+            if(m1.find() && m2.find()){
                 dates.add(this.dates.get(idx));
                 texts.add(this.texts.get(idx));
             }
