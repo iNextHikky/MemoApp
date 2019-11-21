@@ -1,8 +1,6 @@
 package com.example.android12.memoapp;
 
 import android.app.Activity;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +21,6 @@ import java.util.HashMap;
 public class MemoController extends Activity{
     private MemoModel mModel;
     private MemoView mView;
-    //private MemoDatabase mDatabase;
     private HashMap<Integer, MemoCommand> commands;
 
     @Override
@@ -31,7 +28,6 @@ public class MemoController extends Activity{
         super.onCreate(savedInstanceState);
         mModel = new MemoModel(this);
         mView = new MemoView(this, mModel);
-        //mDatabase = new MemoDatabase(this);
         commands = new HashMap<>();
         commands.put(R.id.submit_button, new ComSubmit(mModel, mView));
         commands.put(R.id.clear_button, new ComClear(mModel, mView));
@@ -48,7 +44,6 @@ public class MemoController extends Activity{
     public void onStart(){
         super.onStart();
         mView.start();
-        //mDatabase.start();
         mModel.start();
         mView.setDate(mModel.getCurrentDate());
     }

@@ -16,5 +16,7 @@ public class ComSubmit extends MemoCommand {
         String date = mView.getDate();
         String text = mView.getText();
         mModel.submit(date, text);
+        mView.setText("");
+        mView.setDate(mModel.getCurrentDate());
     }
 }

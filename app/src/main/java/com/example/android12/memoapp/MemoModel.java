@@ -5,6 +5,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -12,53 +14,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MemoModel {
+public class MemoModel{
     private Context mContext;
     private MemoDatabase database;
     private List<String> mDateResults = new ArrayList<>();
     private List<String> mTextResults = new ArrayList<>();
     private int mIndex = 0;
-    private int cycle = 1000, delta = 10;
-    private LocationManager manager;
-    private LocationListener listener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
 
     public MemoModel(Context context){
         mContext = context;
         database = new MemoDatabase(mContext);
-        manager = (LocationManager) mContext.getSystemService((Context.LOCATION_SERVICE));
     }
 
     public void start(){
         database.start();
         database.copyAllEntries(mDateResults, mTextResults);
-        manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, cycle, delta, listener);
         //Log.d("copySuccess", mDateResults.get(0));
-    }
-
-    public double getLocation(){
-        Location l = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        double lat = l.getLatitude();
-        double lon = l.getLongitude();
     }
 
     public void submit(String date, String text){
@@ -74,12 +45,6 @@ public class MemoModel {
         //Log.d("search", "mIdx"+ mDateResults.get(0));
     }
 
-    /*
-    public void clearResults(){
-        mDateResults.clear();
-        mTextResults.clear();
-    }
-*/
     public String getCurrentDate(){
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -107,41 +72,8 @@ public class MemoModel {
         }else
             return false;
     }
-/*
-    public int substractDate(String t1, String t2){
-     d1, d2;
-    try{
-        d1 = DateFormat.parse(t1);
-        d2 = DateFormat.parse(t2);
-    }catch (ParseException e){
-        d1 = null;
-        d2 = null;
-    }if (d1 == null|| d2 == null)
-    return 0;
-}
-*/
+
     public boolean moveCurrent() {
-        /*
-        int sz = mTextResults.size();
-        if (sz <= 0) {
-            mIndex = -1;
-            return false;
-        } else {
-            int idx, jdx;
-            String now = getCurrentDate();
-            int min = substractDate(mDateResults.get(0), now);
-            jdx = 0;
-            for (idx = 1; idx < sz; idx++) {
-                int diff = substractDate(mDateResults.get(idx), now);
-                if (diff < min) {
-                    jdx = idx;
-                    min = diff;
-                }
-            }
-            mIndex = jdx;
-            return true;
-        }
-        */
         int sz = mTextResults.size();
         if(sz < 0){
             mIndex = -1;
@@ -153,13 +85,19 @@ public class MemoModel {
     }
 
     public boolean deleteCurrent(){
-        if(mDateResults.get(mIndex) != null){
-            mDateResults.set(mIndex, null);
-            mTextResults.set(mIndex, null);
-            database.deleteDateTexts(mIndex);
-            return true;
-        }
-        return false;
+        if(mDateResults.get(mIndex) == null)
+            return false;
+        if(mTextResults.get(mIndex) == null)
+            return false;
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("削除ログ");
+        builder.setMessage("'" + mTextResults.get(mIndex) + "'を削除します");
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        mDateResults.set(mIndex, null);
+        mTextResults.set(mIndex, null);
+        database.deleteDateTexts(mIndex);
+        return true;
     }
 
     public boolean moveNext(){

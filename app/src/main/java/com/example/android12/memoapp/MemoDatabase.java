@@ -28,9 +28,6 @@ public class MemoDatabase {
     private String fileNametmp;
     private DateFormat formatter = DateFormat.getDateTimeInstance();
 
-//  final private Pattern ptnDateForSave = Pattern.compile(".*(\\d{4})(\\d{2})(\\d{2}) (\\d{2}):(\\d{2}).*");
-//    final private Pattern ptnDateForLoad = Pattern.compile(".*(\\d{4})/(\\d{1,2})/(\\d{1,2}) (\\d{2}):(\\d{2}).*");
-
     public MemoDatabase(Context context){
         mContext = context;
         fileName = context.getFilesDir().getPath() + "/myMemo.txt";
@@ -39,8 +36,6 @@ public class MemoDatabase {
     }
 
     public void start(){
-        //dates = new ArrayList<>();
-        //texts = new ArrayList<>();
         loadDateTexts();
     }
 
