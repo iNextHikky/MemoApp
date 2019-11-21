@@ -28,7 +28,6 @@ public class MemoView {
         mActivity.setContentView(R.layout.memo_controller);
         wDate = (TextView) mActivity.findViewById(R.id.date_frame);
         wText = (TextView) mActivity.findViewById(R.id.text_frame);
-        wList = (ListView) mActivity.findViewById(R.id.list_view);
         setDate(mModel.getCurrentDate());
     }
 
@@ -61,12 +60,11 @@ public class MemoView {
                 android.R.layout.simple_list_item_2,
                 new String[] {"Data", "Text"},
                 new int[] {android.R.id.text1,android.R.id.text2});
+        wList = (ListView) mActivity.findViewById(R.id.list_view);
         wList.setAdapter(adapter);
     }
 
     public void mainActivity(){
         start();
     }
-
-
 }
