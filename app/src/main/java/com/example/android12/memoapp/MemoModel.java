@@ -1,6 +1,7 @@
 package com.example.android12.memoapp;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Adapter;
@@ -91,13 +92,22 @@ public class MemoModel{
         if(mTextResults.get(mIndex) == null)
             return false;
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setCancelable(false);
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setTitle("削除ログ");
-        builder.setMessage("'" + mTextResults.get(mIndex) + "'を削除しました");
+        builder.setMessage("'" + mTextResults.get(mIndex) + "'を削除しますか？");
+        builder.setNegativeButton("No", null);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mDateResults.set(mIndex, null);
+                mTextResults.set(mIndex, null);
+                database.deleteDateTexts(mIndex);
+                resetClear();
+            }
+        });
         AlertDialog dialog = builder.create();
         dialog.show();
-        mDateResults.set(mIndex, null);
-        mTextResults.set(mIndex, null);
-        database.deleteDateTexts(mIndex);
         return true;
     }
 
@@ -110,10 +120,20 @@ public class MemoModel{
     }
 
     public void deleteFile(){
-        database.deleteFile();
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setCancelable(false);
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setTitle("削除ログ");
-        builder.setMessage("ファイルを削除しました");
+        builder.setMessage("ファイルを削除しますか？");
+        builder.setNegativeButton("No", null);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                database.deleteFile();
+                database.loadDateTexts();
+                resetClear();
+            }
+        });
         AlertDialog dialog = builder.create();
         dialog.show();
     }

@@ -13,8 +13,10 @@
         android:layout_margin="10dp">
         <Button
             android:id="@+id/back_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="40dp"
             android:text="戻る"
             android:onClick="onClick"/>
 
@@ -22,6 +24,7 @@
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             ></ListView>
 
     </LinearLayout>

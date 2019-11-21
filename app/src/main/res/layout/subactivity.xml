@@ -31,12 +31,12 @@
             android:onClick="onClick"/>
 
         <Button
-            android:id="@+id/delete_button"
+            android:id="@+id/list_button"
             android:layout_width="0dp"
             android:layout_weight="0.3"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="さくじょ"
+            android:text="リスト表示"
             android:onClick="onClick"/>
 
     </LinearLayout>
@@ -67,12 +67,12 @@
             android:onClick="onClick"/>
 
         <Button
-            android:id="@+id/list_button"
+            android:id="@+id/delete_button"
             android:layout_width="0dp"
             android:layout_weight="0.3"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="リスト表示"
+            android:text="sakujo"
             android:onClick="onClick"/>
 
     </LinearLayout>
