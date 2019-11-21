@@ -22,12 +22,12 @@
             android:onClick="onClick"/>
 
         <Button
-            android:id="@+id/delete_button"
+            android:id="@+id/deletefile_button"
             android:layout_width="0dp"
             android:layout_weight="0.3"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="sakujo"
+            android:text="オール削除"
             android:onClick="onClick"/>
 
         <Button
@@ -67,12 +67,12 @@
             android:onClick="onClick"/>
 
         <Button
-            android:id="@+id/delete_button"
+            android:id="@+id/list_button"
             android:layout_width="0dp"
             android:layout_weight="0.3"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="サク女"
+            android:text="リスト表示"
             android:onClick="onClick"/>
 
     </LinearLayout>

@@ -206,4 +206,12 @@ public class MemoDatabase {
             texts.add(this.texts.get(idx));
         }
     }
+
+    public void deleteFile(){
+        File file = new File(fileName);
+        if(file.exists())
+            file.delete();
+        else
+            return;
+    }
 }

@@ -8,6 +8,8 @@ import android.view.View;
 import com.example.android12.memoapp.Commands.ComBack;
 import com.example.android12.memoapp.Commands.ComClear;
 import com.example.android12.memoapp.Commands.ComDelete;
+import com.example.android12.memoapp.Commands.ComFileDelete;
+import com.example.android12.memoapp.Commands.ComList;
 import com.example.android12.memoapp.Commands.ComMenu;
 import com.example.android12.memoapp.Commands.ComSearch;
 import com.example.android12.memoapp.Commands.ComShowCurrent;
@@ -38,6 +40,8 @@ public class MemoController extends Activity{
         commands.put(R.id.menu_button, new ComMenu(mModel, mView));
         commands.put(R.id.delete_button, new ComDelete(mModel, mView));
         commands.put(R.id.back_button, new ComBack(mModel, mView));
+        commands.put(R.id.list_button, new ComList(mModel, mView));
+        commands.put(R.id.deletefile_button, new ComFileDelete(mModel, mView));
     }
 
     @Override

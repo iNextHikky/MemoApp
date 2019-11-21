@@ -18,5 +18,6 @@ public class ComSubmit extends MemoCommand {
         mModel.submit(date, text);
         mView.setText("");
         mView.setDate(mModel.getCurrentDate());
+        mModel.resetClear();
     }
 }

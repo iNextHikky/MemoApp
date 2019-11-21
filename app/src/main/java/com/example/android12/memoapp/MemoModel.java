@@ -1,18 +1,19 @@
 package com.example.android12.memoapp;
 
 import android.content.Context;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MemoModel{
     private Context mContext;
@@ -91,7 +92,7 @@ public class MemoModel{
             return false;
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle("削除ログ");
-        builder.setMessage("'" + mTextResults.get(mIndex) + "'を削除します");
+        builder.setMessage("'" + mTextResults.get(mIndex) + "'を削除しました");
         AlertDialog dialog = builder.create();
         dialog.show();
         mDateResults.set(mIndex, null);
@@ -108,7 +109,27 @@ public class MemoModel{
             return false;
     }
 
+    public void deleteFile(){
+        database.deleteFile();
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("削除ログ");
+        builder.setMessage("ファイルを削除しました");
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     public void resetClear(){
         database.copyAllEntries(mDateResults, mTextResults);
+    }
+
+    public List getAdapter(){
+        List<Map<String, String>> adaptData = new ArrayList<>();
+        for (int i = 0; i < mDateResults.size(); i++){
+            Map<String, String> item = new HashMap<>();
+            item.put("Data", mDateResults.get(i));
+            item.put("Text", mTextResults.get(i));
+            adaptData.add(item);
+        }
+        return adaptData;
     }
 }
